@@ -1,0 +1,20 @@
+[ req ]
+default_md = sha256
+prompt = no
+req_extensions = req_ext
+distinguished_name = req_distinguished_name
+[ req_distinguished_name ]
+commonName = *.c46.avilab.top
+countryName = FR
+stateOrProvinceName = IDF
+localityName = Paris
+organizationName = VMW
+organizationalUnitName = AVI
+[ req_ext ]
+keyUsage=critical,digitalSignature,keyEncipherment
+extendedKeyUsage=critical,serverAuth,clientAuth
+basicConstraints=critical,CA:false
+crlDistributionPoints=URI:http://crl.avilab.top/crl.pem
+subjectAltName = @alt_names
+[ alt_names ]
+DNS.0 = *.c46.avilab.top
