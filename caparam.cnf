@@ -10,10 +10,19 @@ stateOrProvinceName = IDF
 localityName = Paris
 organizationName = VMW
 organizationalUnitName = AVI
-[ req_ext ]
-keyUsage=critical,digitalSignature,keyEncipherment
+[ ca_ext ]
+keyUsage=critical,keyCertSign
 extendedKeyUsage=critical,serverAuth,clientAuth
 basicConstraints=critical,CA:true
+subjectKeyIdentifier = hash
+authorityKeyIdentifier  = keyid,issuer
+crlDistributionPoints=URI:http://crl.avilab.top/crl.pem
+subjectAltName = @alt_names
+[ req_ext ]
+keyUsage=critical,keyCertSign
+extendedKeyUsage=critical,serverAuth,clientAuth
+basicConstraints=critical,CA:true
+subjectKeyIdentifier = hash
 crlDistributionPoints=URI:http://crl.avilab.top/crl.pem
 subjectAltName = @alt_names
 [ alt_names ]
