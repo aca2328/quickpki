@@ -17,7 +17,7 @@ echo "check the CSR attributes"
 openssl req -text -in ca-csr.pem -noout
 echo "ok\n-----------------------------"
 echo "sign the x509v3 CSR with the private key to create the self signed certificate"
-openssl x509 -req -in ca-csr.pem -sha256 -days 90 -signkey ca-pkey.pem -CAserial ca.slr -CAcreateserial -extfile caparam.cnf -extensions ca_ext  > ca-cert.pem
+openssl x509 -req -in ca-csr.pem -sha256 -days 365 -signkey ca-pkey.pem -CAserial ca.slr -CAcreateserial -extfile caparam.cnf -extensions ca_ext  > ca-cert.pem
 echo "ok\n-----------------------------"
 echo "check the CA cert attributes"
 openssl x509 -text -in ca-cert.pem -noout
@@ -39,7 +39,7 @@ echo "ok\n-----------------------------"
 #####################
 echo "\n\nSTEP 4 - Sign the 2 CSR with the CA info (cert and pkey) and generate the 2 final signed certificates\n-----------------------------"
 echo "sign the client CSR"
-openssl x509 -req -in cli-csr.pem -days 90 -sha256 -CA ca-cert.pem -CAkey ca-pkey.pem -CAserial cli.slr -CAcreateserial -extfile cliparam.cnf -extensions req_ext -out cli-cert.pem
+openssl x509 -req -in cli-csr.pem -days 365 -sha256 -CA ca-cert.pem -CAkey ca-pkey.pem -CAserial cli.slr -CAcreateserial -extfile cliparam.cnf -extensions req_ext -out cli-cert.pem
 rm cli-csr.pem
 echo "-----------------------------"
 echo "verify the client cert against CA"
@@ -49,7 +49,7 @@ echo "check the client cert attributes"
 openssl x509 -text -in cli-cert.pem -noout
 echo "-----------------------------\n"
 echo "\nsign the server CSR"
-openssl x509 -req -in srv-csr.pem -days 90 -sha256 -CA ca-cert.pem -CAkey ca-pkey.pem -CAserial srv.slr -CAcreateserial -extfile srvparam.cnf -extensions req_ext -out srv-cert.pem
+openssl x509 -req -in srv-csr.pem -days 365 -sha256 -CA ca-cert.pem -CAkey ca-pkey.pem -CAserial srv.slr -CAcreateserial -extfile srvparam.cnf -extensions req_ext -out srv-cert.pem
 rm srv-csr.pem
 echo "-----------------------------"
 echo "verify the server against CA"
