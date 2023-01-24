@@ -4,7 +4,7 @@ prompt = no
 req_extensions = req_ext
 distinguished_name = req_distinguished_name
 [ req_distinguished_name ]
-commonName = acamerloW7WQL.vmware.com
+commonName = client.avilab.top
 countryName = FR
 stateOrProvinceName = IDF
 localityName = Paris
@@ -17,4 +17,4 @@ basicConstraints=critical,CA:false
 crlDistributionPoints=URI:http://crl.avilab.top/crl.pem
 subjectAltName = @alt_names
 [ alt_names ]
-DNS.0 = acamerloW7WQL.vmware.com
+DNS.0 = client.avilab.top

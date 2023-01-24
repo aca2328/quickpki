@@ -4,7 +4,7 @@ prompt = no
 req_extensions = req_ext
 distinguished_name = req_distinguished_name
 [ req_distinguished_name ]
-commonName = avilab.top
+commonName = ca.avilab.top
 countryName = FR
 stateOrProvinceName = IDF
 localityName = Paris
@@ -26,4 +26,4 @@ subjectKeyIdentifier = hash
 crlDistributionPoints=URI:http://crl.avilab.top/crl.pem
 subjectAltName = @alt_names
 [ alt_names ]
-DNS.0 = avilab.top
+DNS.0 = ca.avilab.top
