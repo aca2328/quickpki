@@ -3,7 +3,7 @@ The objective here is to quickly create the needed certificate and CA to configu
 
 The script will create all certificates using ECC secp384r1 for keys, SHA265 for signature, x509v3 extentions to set CRL distribution point and multiple fqdn in Subject Alternative Name ( SAN)
 
-https://github.com/aca2328/quickpki
+[https://github.com/aca2328/quickpki]
 
 # Requirements and tests
 
