@@ -4,8 +4,8 @@ The objective here is to quickly create the needed certificate and CA to configu
 The script will create all certificates using ECC secp384r1 for keys, SHA265 for signature, x509v3 extensions to set CRL distribution point and multiple fqdn in Subject Alternative Name (SAN)
 
 * certificate and private key for the CA : 
-- ca-cert.pem
-- ca-pkey.pem
+  - ca-cert.pem
+  - ca-pkey.pem
 * certificate and private key for the Server, CSR signed by the CA certificate and pricate key
 - srv-cert.pem
 - srv-pkey.pem
