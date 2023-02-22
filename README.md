@@ -3,20 +3,20 @@ The objective here is to quickly create the needed certificate and CA to configu
 
 The script will create all certificates using ECC secp384r1 for keys, SHA265 for signature, x509v3 extensions to set CRL distribution point and multiple fqdn in Subject Alternative Name (SAN)
 
-* certificate and private key for the CA : 
+* certificate and private key generated for the CA : 
   - ca-cert.pem
   - ca-pkey.pem
   - ca.pfx
-* certificate and private key for the Server, CSR signed by the CA certificate and pricate key
+* certificate and private key for the Server, result of a CSR signed by the CA certificate and private key, serial numner generated in `.slr` file
   - srv-cert.pem
   - srv-pkey.pem
   - srv.pfx
-* certificate and private key for the Client, CSR signed by the CA certificate and pricate key
+  - srv.slr
+* certificate and private key for the Client, result of a CSR signed by the CA certificate and private key, serial numner generated in `.slr` file
   - cli-cert.pem
   - cli-pkey.pem
   - cli.pfx
-
-[https://github.com/aca2328/quickpki]
+  - cli.slr
 
 # Requirements and tests
 
@@ -26,30 +26,22 @@ The script will create all certificates using ECC secp384r1 for keys, SHA265 for
 * server certificate on AVI 22.1.2 version
 
 
-# setup and run
+# PKI generation
 
-.cns extention files will setup the parameters needed for openssl command to run in non interactive mode.
+All files are there :[https://github.com/aca2328/quickpki]
 
-'caparam.cnf' list the parameters used by openssl during CA certificate creation
-'srvparam.cnf' list the parameters used by openssl during Server certificate creation
-'cliparam.cnf' list the parameters used by openssl during Client certificate creation
+1. Review and adjust some parameters in the tree `.cns` :
 
+  - 'caparam.cnf' list the parameters used by openssl during CA certificate creation
+  - 'srvparam.cnf' list the parameters used by openssl during Server certificate creation
+  - 'cliparam.cnf' list the parameters used by openssl during Client certificate creation
 
+2. Review some parameter in `certgen.sh` script
 
-you may need to change some values to fit you needs, below is the  list of the useful ones:
+3. Add exec rights with `chmod+ax certgen.sh` before execution with `./certgen.sh`
 
-[ req_distinguished_name ]
-commonName = 'your domain'
-countryName = 
-stateOrProvinceName = 
-localityName = 
-organizationName =
-organizationalUnitName =
+* The script will create a folder with all the files, name of the folder is random so every time you run the script , it will create another folder.
+* After each certificate creation, the script will issue a command to browse the attributes and a command to check signature calidity against the CA.
 
+# Import the CA into worksatation
 
-
-
-* 2
-
-* gencert.sh is the script to lauch using `./gencert.sh`
-* it will create a folder with all the files, name of the folder is random so every time you run the script , it will create another folder
