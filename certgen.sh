@@ -71,7 +71,6 @@ echo "ok\n-----------------------------"
 ######################
 
 echo "\n\nSTEP 5 - create pfx files for easy import\n-----------------------------" 
-<<<<<<< HEAD
 echo "adding Certificate authority cert and pkey in a pfx enveloppe, with password"
 # in the 3 command below, you can change the password for the `.pfx` files
 openssl pkcs12 -export -in ca-cert.pem -inkey ca-pkey.pem -out CA.pfx -password pass:fklrtjd56fg
