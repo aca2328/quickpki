@@ -6,12 +6,15 @@ The script will create all certificates using ECC secp384r1 for keys, SHA265 for
 * certificate and private key for the CA : 
   - ca-cert.pem
   - ca-pkey.pem
+  - ca.pfx
 * certificate and private key for the Server, CSR signed by the CA certificate and pricate key
   - srv-cert.pem
   - srv-pkey.pem
+  - srv.pfx
 * certificate and private key for the Client, CSR signed by the CA certificate and pricate key
   - cli-cert.pem
   - cli-pkey.pem
+  - cli.pfx
 
 [https://github.com/aca2328/quickpki]
 
