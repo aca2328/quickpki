@@ -71,9 +71,14 @@ echo "ok\n-----------------------------"
 ######################
 
 echo "\n\nSTEP 5 - create pfx files for easy import\n-----------------------------" 
+<<<<<<< HEAD
 echo "adding Certificate authority cert and pkey in a pfx enveloppe, with password"
 # in the 3 command below, you can change the password for the `.pfx` files
 openssl pkcs12 -export -in ca-cert.pem -inkey ca-pkey.pem -out CA.pfx -password pass:fklrtjd56fg
+=======
+echo "adding Certificate authority cert and pkey in a pfx enveloppe, using password 'avi123'"
+openssl pkcs12 -export -in ca-cert.pem -inkey ca-pkey.pem -out ca.pfx -password pass:avi123
+>>>>>>> 6281d9cdd8263a56447c5b8256260c550e7728c5
 echo "ok\n-----------------------------"
 echo "adding Client cert and pkey in a pfx enveloppe, with password"
 openssl pkcs12 -export -in cli-cert.pem -inkey cli-pkey.pem -out cli.pfx -password pass:fklrtjd56fg
@@ -84,6 +89,7 @@ echo "ok\n-----------------------------"
 echo "moving final files into one folder\n"
 folder=$(date +%m%s)
 mkdir $folder
+rm ca-csr.pem
 mv *.pem $folder
 mv *.pfx $folder
 mv *.slr $folder
