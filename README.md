@@ -1,12 +1,17 @@
 # Quickly create a PKI for mTLS testing
 The objective here is to quickly create the needed certificate and CA to configure a mTLS connection between web client and a server ( here i'll use Avi networks , but any other server / solution will work also)
 
-The script will create all certificates using ECC secp384r1 for keys, SHA265 for signature, x509v3 extentions to set CRL distribution point and multiple fqdn in Subject Alternative Name ( SAN)
+The script will create all certificates using ECC secp384r1 for keys, SHA265 for signature, x509v3 extensions to set CRL distribution point and multiple fqdn in Subject Alternative Name (SAN)
 
-* certificate and private key for the CA
+* certificate and private key for the CA : 
+- ca-cert.pem
+- ca-pkey.pem
 * certificate and private key for the Server, CSR signed by the CA certificate and pricate key
+- srv-cert.pem
+- srv-pkey.pem
 * certificate and private key for the Client, CSR signed by the CA certificate and pricate key
-
+- cli-cert.pem
+- cli-pkey.pem
 
 [https://github.com/aca2328/quickpki]
 
