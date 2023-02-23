@@ -4,26 +4,26 @@ prompt = no
 req_extensions = req_ext
 distinguished_name = req_distinguished_name
 [ req_distinguished_name ]
-commonName = ca.avilab.top
-countryName = FR
-stateOrProvinceName = IDF
+commonName = subdomain.domain.test
+countryName = US
+stateOrProvinceName = state
 localityName = Paris
-organizationName = VMW
-organizationalUnitName = AVI
+organizationName = none
+organizationalUnitName = some
 [ ca_ext ]
 keyUsage=critical,keyCertSign
 extendedKeyUsage=critical,serverAuth,clientAuth
 basicConstraints=critical,CA:true
 subjectKeyIdentifier = hash
 authorityKeyIdentifier  = keyid,issuer
-crlDistributionPoints=URI:http://crl.avilab.top/crl.pem
+crlDistributionPoints=URI:http://crl.domain.test/crl.pem
 subjectAltName = @alt_names
 [ req_ext ]
 keyUsage=critical,keyCertSign
 extendedKeyUsage=critical,serverAuth,clientAuth
 basicConstraints=critical,CA:true
 subjectKeyIdentifier = hash
-crlDistributionPoints=URI:http://crl.avilab.top/crl.pem
+crlDistributionPoints=URI:http://crl.domain.test/crl.pem
 subjectAltName = @alt_names
 [ alt_names ]
-DNS.0 = ca.avilab.top
+DNS.0 = CA.domain.test
