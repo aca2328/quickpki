@@ -28,7 +28,7 @@ The script will create all certificates using ECC secp384r1 for keys, SHA265 for
 
 # PKI generation
 
-All files are there :[https://github.com/aca2328/quickpki]
+All files are there ![quickpki}(https://github.com/aca2328/quickpki)
 
 1. Review and adjust some parameters in the tree `.cns` :
 * `caparam.cnf` list the parameters used by openssl during CA certificate creation
