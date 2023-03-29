@@ -1,8 +1,10 @@
 # Quickly create a PKI for mTLS testing
 
-The objective here is to quickly create the needed certificate and CA to configure a mTLS connection between web client and a server ( here i'll use Avi networks , but any other server / solution will work also)
+The objective here is to use openssl to quickly create a standalone Certificate Authority with client and server signed certificates.
+With this you can configure differents TLS scenarios like  mutual TLS (mTLS) authenticted session between a web client and a web server ( I my tests , i 've used VMware ALB (Avi) ADC solution, but any other server / solution will work also).
 
-The script will create all certificates using ECC secp384r1 for keys, SHA265 for signature, x509v3 extensions to set CRL distribution point and multiple fqdn in Subject Alternative Name (SAN)
+
+The script `certgen.sh` will create all certificates files using ECC secp384r1 for keys, SHA265 for signature, x509v3 extensions to set CRL distribution point and multiple fqdn in Subject Alternative Name (SAN)
 
 * certificate and private key generated for the CA :
   * ca-cert.pem
@@ -20,7 +22,6 @@ The script will create all certificates using ECC secp384r1 for keys, SHA265 for
   * cli.slr
 
 # Requirements and tests
-
 * script to run on bash or zsh
 * tested with openssl version 3.3.6 , macos 13.1,
 * ca cert upload tested on mac os 13.1, windows xx
