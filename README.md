@@ -1,21 +1,21 @@
 # Quickly create a PKI for mTLS testing
 
 The objective here is to use openssl to quickly create a standalone Certificate Authority with client and server signed certificates.
-With this you can configure differents TLS scenarios like  mutual TLS (mTLS) authenticted session between a web client and a web server ( I my tests , i 've used VMware ALB (Avi) ADC solution, but any other server / solution will work also).
+With this you can configure different TLS scenarios like  mutual TLS (mTLS) authenticated session between a web client and a web server (in my tests, I used VMware ALB (Avi) ADC solution, but any other server / solution will work also).
 
 
-The script `certgen.sh` will create all certificates files using ECC secp384r1 for keys, SHA265 for signature, x509v3 extensions to set CRL distribution point and multiple fqdn in Subject Alternative Name (SAN)
+The script `certgen.sh` will create all certificates files using ECC secp384r1 for keys, SHA256 for signature, x509v3 extensions to set CRL distribution point and multiple fqdn in Subject Alternative Name (SAN)
 
 * certificate and private key generated for the CA :
   * ca-cert.pem
   * ca-pkey.pem
   * ca.pfx
-* certificate and private key for the Server, result of a CSR signed by the CA certificate and private key, serial numner generated in `.slr` file
+* certificate and private key for the Server, result of a CSR signed by the CA certificate and private key, serial number generated in `.slr` file
   * srv-cert.pem
   * srv-pkey.pem
   * srv.pfx
-  8 srv.slr
-* certificate and private key for the Client, result of a CSR signed by the CA certificate and private key, serial numner generated in `.slr` file
+  * srv.slr
+* certificate and private key for the Client, result of a CSR signed by the CA certificate and private key, serial number generated in `.slr` file
   * cli-cert.pem
   * cli-pkey.pem
   * cli.pfx
@@ -29,21 +29,21 @@ The script `certgen.sh` will create all certificates files using ECC secp384r1 f
 
 # PKI generation
 
-All files are there ![quickpki](https://github.com/aca2328/quickpki)
+All files are there [quickpki](https://github.com/aca2328/quickpki)
 
-1. Review and adjust some parameters in the tree `.cns` :
+1. Review and adjust some parameters in the three `.cnf` files :
 * `caparam.cnf` list the parameters used by openssl during CA certificate creation
 * `srvparam.cnf` list the parameters used by openssl during Server certificate creation
 * `cliparam.cnf` list the parameters used by openssl during Client certificate creation
 
 2. Review some parameter in `certgen.sh` script
 
-3. Add exec rights with `chmod+ax certgen.sh` before execution with `./certgen.sh`
+3. Add exec rights with `chmod +x certgen.sh` before execution with `./certgen.sh`
 
 * The script will create a folder with all the files, name of the folder is random so every time you run the script , it will create another folder.
-* After each certificate creation, the script will issue a command to browse the attributes and a command to check signature calidity against the CA.
+* After each certificate creation, the script will issue a command to browse the attributes and a command to check signature validity against the CA.
 
-# Import the CA into macos worksatation
+# Import the CA into macos workstation
 
 for Macos, click on `ca-cert.pem` file, it will appear in the `keychain access` tool as an untrusted certificate named with the common name listed in the `caparam.cnf`.
 
@@ -53,14 +53,14 @@ Right click `Get info` on the certificate, then manually force the trust.
 The certificate should appear as manually trusted
 ![trustedmac](/images/trustedmac.png)
 
-# Import the CA into windows worksatation
+# Import the CA into windows workstation
 \
 .
 
 # Use the server certificate with NSX ALB ( AVI )
 
 from AVI UI, go to `Template / Security / SSL/TLS` :
-* choose `create a certificate / Root/Intermetiade CA`
+* choose `create a certificate / Root/Intermediate CA`
 * name it and import `ca-cert.pem` file
 
 you should get green light here.\
@@ -68,13 +68,13 @@ you should get green light here.\
 
 Now add the server certificate by choosing `certificate / application Certificate`
 * name it and choose import type
-* import the `srv.pfx` file into section `Upload or Paste Key (PEM) or PKCS12 File`, using the password setted initially in `srvparam.cnf` file.
+* import the `srv.pfx` file into section `Upload or Paste Key (PEM) or PKCS12 File`, using the password set in the `certgen.sh` script (STEP 5).
 
 After validation you should get another green light with mention of the SSL certificate chain that lead to the root certificate imported above.
 
 Final step is just to add the certificate to the virtual service.
 
-Test standard TLS with server certificate mode by browsing from a worksation configured with the root certificate to the service, using either dns name or ip ( on or the two values must match the configured values in `srvparam.cnf` file setion [ALT names].
+Test standard TLS with server certificate mode by browsing from a workstation configured with the root certificate to the service, using either dns name or ip (one or both values must match the configured values in `srvparam.cnf` file section [alt_names].
 
-here you sould get a lock with indication that the connection is secure. 
+here you should get a lock with indication that the connection is secure. 
 ![securetls](/images/securetls.png)

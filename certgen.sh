@@ -1,13 +1,14 @@
 #--- proc cert generation EC
+set -e
 echo "\n\nSTEP1 - create the 3 private keys: CA, Client and Server\n-----------------------------"
 echo "creating the Certificate authority private key: ca-pkey.pem"
 openssl ecparam -name secp384r1 -genkey -noout -out ca-pkey.pem
 echo "ok\n-----------------------------"
 echo "create the client private key: cli-pkey.pem"
-openssl ecparam -name secp384r1 -genkey -noout -out srv-pkey.pem
+openssl ecparam -name secp384r1 -genkey -noout -out cli-pkey.pem
 echo "ok\n-----------------------------"
 echo "create the server private key: srv-pkey.pem"
-openssl ecparam -name secp384r1 -genkey -noout -out cli-pkey.pem
+openssl ecparam -name secp384r1 -genkey -noout -out srv-pkey.pem
 echo "ok\n-----------------------------"
 
 #####################
@@ -20,7 +21,7 @@ openssl req -text -in ca-csr.pem -noout
 echo "ok\n-----------------------------"
 echo "sign the x509v3 CSR with the private key to create the self signed certificate"
 # adjust the validity in the `-days`parameter in the command below
-openssl x509 -req -in ca-csr.pem -sha256 -days 365 -signkey ca-pkey.pem -CAserial ca.slr -CAcreateserial -extfile caparam.cnf -extensions ca_ext  > ca-cert.pem
+openssl x509 -req -in ca-csr.pem -sha256 -days 365 -signkey ca-pkey.pem -extfile caparam.cnf -extensions ca_ext  > ca-cert.pem
 echo "ok\n-----------------------------"
 echo "check the CA cert attributes"
 openssl x509 -text -in ca-cert.pem -noout
@@ -33,13 +34,13 @@ echo "generate x509v3 CSR for client"
 openssl req -new -nodes -key cli-pkey.pem -sha256 -nameopt utf8 -utf8 -extensions req_ext -config cliparam.cnf -out cli-csr.pem
 echo "ok\n-----------------------------"
 echo "check the CSR client attributes"
-openssl req -text -in ca-csr.pem -noout
+openssl req -text -in cli-csr.pem -noout
 echo "ok\n-----------------------------"
 echo "generate x509v3 CSR for server"
 openssl req -new -nodes -key srv-pkey.pem -sha256 -nameopt utf8 -utf8 -extensions req_ext -config srvparam.cnf -out srv-csr.pem
 echo "ok\n-----------------------------"
 echo "check the CSR server attributes"
-openssl req -text -in ca-csr.pem -noout
+openssl req -text -in srv-csr.pem -noout
 echo "ok\n-----------------------------"
 
 #####################
@@ -82,12 +83,11 @@ echo "adding Server cert and pkey in a pfx enveloppe, with password"
 openssl pkcs12 -export -in srv-cert.pem -inkey srv-pkey.pem -out srv.pfx -password pass:fklrtjd56fg
 echo "ok\n-----------------------------"
 echo "moving final files into one folder\n"
-folder=$(date +%m%s)
-mkdir $folder
+folder=$(mktemp -d "pki-$(date +%Y%m%d-%H%M%S)-XXXX")
 rm ca-csr.pem
-mv *.pem $folder
-mv *.pfx $folder
-mv *.slr $folder
+mv ca-cert.pem ca-pkey.pem cli-cert.pem cli-pkey.pem srv-cert.pem srv-pkey.pem "$folder"
+mv ca.pfx cli.pfx srv.pfx "$folder"
+mv cli.slr srv.slr "$folder"
 echo "\nfolder name: $folder\n"
-ls -ltr $folder
+ls -ltr "$folder"
 echo "\n------------end of processing----------------"
