@@ -8,10 +8,10 @@ commonName = client.domain.test
 countryName = US
 stateOrProvinceName = state
 localityName = town
-organizationName = comany
+organizationName = company
 organizationalUnitName = section
 [ req_ext ]
-keyUsage=critical,digitalSignature,keyEncipherment
+keyUsage=critical,digitalSignature
 extendedKeyUsage=critical,serverAuth,clientAuth
 basicConstraints=critical,CA:false
 crlDistributionPoints=URI:http://crl.domain.test/crl.pem
