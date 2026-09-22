@@ -1,3 +1,11 @@
 .DS_Config
 .DS_Store
-/*
+
+# certgen.sh output folders (keys and certs)
+/pki-*/
+# output folders from older certgen.sh versions (numeric names)
+/[0-9]*/
+# generated files left behind if certgen.sh stops early
+*.pem
+*.pfx
+*.slr
