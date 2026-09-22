@@ -68,7 +68,7 @@ you should get green light here.\
 
 Now add the server certificate by choosing `certificate / application Certificate`
 * name it and choose import type
-* import the `srv.pfx` file into section `Upload or Paste Key (PEM) or PKCS12 File`, using the password set in the `PFX_PASS` variable at the top of `certgen.sh`.
+* import the `srv.pfx` file into section `Upload or Paste Key (PEM) or PKCS12 File`, using the password set in the `PFX_PASS` variable at the top of `certgen.sh`. If the import fails, set `PFX_LEGACY="yes"` in `certgen.sh` and run it again to create `.pfx` files with older, more compatible encryption.
 
 After validation you should get another green light with mention of the SSL certificate chain that lead to the root certificate imported above.
 

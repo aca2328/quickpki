@@ -4,6 +4,8 @@ set -e
 
 # password for the `.pfx` files created in STEP 5
 PFX_PASS="fklrtjd56fg"
+# set to "yes" if a system fails to import the `.pfx` files (uses older 3DES/SHA1 encryption)
+PFX_LEGACY="no"
 echo "\n\nSTEP1 - create the 3 private keys: CA, Client and Server\n-----------------------------"
 echo "creating the Certificate authority private key: ca-pkey.pem"
 openssl ecparam -name secp384r1 -genkey -noout -out ca-pkey.pem
@@ -78,13 +80,17 @@ echo "ok\n-----------------------------"
 echo "\n\nSTEP 5 - create pfx files for easy import\n-----------------------------" 
 echo "adding Certificate authority cert and pkey in a pfx enveloppe, with password"
 # the `.pfx` password is set in PFX_PASS at the top of this script
-openssl pkcs12 -export -in ca-cert.pem -inkey ca-pkey.pem -out ca.pfx -password "pass:$PFX_PASS"
+PFX_OPTS=""
+if [ "$PFX_LEGACY" = "yes" ]; then
+  PFX_OPTS="-keypbe PBE-SHA1-3DES -certpbe PBE-SHA1-3DES -macalg sha1"
+fi
+openssl pkcs12 -export -in ca-cert.pem -inkey ca-pkey.pem -out ca.pfx -password "pass:$PFX_PASS" $PFX_OPTS
 echo "ok\n-----------------------------"
 echo "adding Client cert and pkey in a pfx enveloppe, with password"
-openssl pkcs12 -export -in cli-cert.pem -inkey cli-pkey.pem -out cli.pfx -password "pass:$PFX_PASS"
+openssl pkcs12 -export -in cli-cert.pem -inkey cli-pkey.pem -out cli.pfx -password "pass:$PFX_PASS" $PFX_OPTS
 echo "ok\n-----------------------------"
 echo "adding Server cert and pkey in a pfx enveloppe, with password"
-openssl pkcs12 -export -in srv-cert.pem -inkey srv-pkey.pem -out srv.pfx -password "pass:$PFX_PASS"
+openssl pkcs12 -export -in srv-cert.pem -inkey srv-pkey.pem -out srv.pfx -password "pass:$PFX_PASS" $PFX_OPTS
 echo "ok\n-----------------------------"
 echo "moving final files into one folder\n"
 folder=$(mktemp -d "pki-$(date +%Y%m%d-%H%M%S)-XXXX")
