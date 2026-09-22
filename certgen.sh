@@ -1,5 +1,9 @@
+#!/bin/sh
 #--- proc cert generation EC
 set -e
+
+# password for the `.pfx` files created in STEP 5
+PFX_PASS="fklrtjd56fg"
 echo "\n\nSTEP1 - create the 3 private keys: CA, Client and Server\n-----------------------------"
 echo "creating the Certificate authority private key: ca-pkey.pem"
 openssl ecparam -name secp384r1 -genkey -noout -out ca-pkey.pem
@@ -73,14 +77,14 @@ echo "ok\n-----------------------------"
 
 echo "\n\nSTEP 5 - create pfx files for easy import\n-----------------------------" 
 echo "adding Certificate authority cert and pkey in a pfx enveloppe, with password"
-# in the 3 command below, you can change the password for the `.pfx` files
-openssl pkcs12 -export -in ca-cert.pem -inkey ca-pkey.pem -out ca.pfx -password pass:fklrtjd56fg
+# the `.pfx` password is set in PFX_PASS at the top of this script
+openssl pkcs12 -export -in ca-cert.pem -inkey ca-pkey.pem -out ca.pfx -password "pass:$PFX_PASS"
 echo "ok\n-----------------------------"
 echo "adding Client cert and pkey in a pfx enveloppe, with password"
-openssl pkcs12 -export -in cli-cert.pem -inkey cli-pkey.pem -out cli.pfx -password pass:fklrtjd56fg
+openssl pkcs12 -export -in cli-cert.pem -inkey cli-pkey.pem -out cli.pfx -password "pass:$PFX_PASS"
 echo "ok\n-----------------------------"
 echo "adding Server cert and pkey in a pfx enveloppe, with password"
-openssl pkcs12 -export -in srv-cert.pem -inkey srv-pkey.pem -out srv.pfx -password pass:fklrtjd56fg
+openssl pkcs12 -export -in srv-cert.pem -inkey srv-pkey.pem -out srv.pfx -password "pass:$PFX_PASS"
 echo "ok\n-----------------------------"
 echo "moving final files into one folder\n"
 folder=$(mktemp -d "pki-$(date +%Y%m%d-%H%M%S)-XXXX")
